@@ -5,39 +5,55 @@ import java.util.Iterator;
 import net.datastructures.List;
 
 public class ArrayList<E> implements List<E> {
+	
+	E[] list;
+	int elements;
 
 	public ArrayList() {
-		// TODO Auto-generated constructor stub
+		list = (E[]) new Object[16];
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return elements;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return elements==0;
 	}
 
 	@Override
 	public E get(int i) throws IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
-		return null;
+		if (i > elements-1)
+			throw new IndexOutOfBoundsException();
+		
+		return list[i];
 	}
 
 	@Override
 	public E set(int i, E e) throws IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
-		return null;
+		if (i > elements-1 | i<0)
+			throw new IndexOutOfBoundsException();
+		
+		E out = list[i];
+		list[i]=e;
+		return out;
 	}
 
 	@Override
 	public void add(int i, E e) throws IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
-		
+		if (i > elements-1 | i<0)
+			throw new IndexOutOfBoundsException();
+		if (elements == list.length) {
+			E[] newlist = (E[]) new Object[elements*2];
+			
+			for(int j = i; j <= elements; j++) {
+			}
+		}
 	}
 	
 	@Override

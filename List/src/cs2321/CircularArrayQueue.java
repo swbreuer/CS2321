@@ -12,39 +12,60 @@ import net.datastructures.Queue;
  */
 
 public class CircularArrayQueue<E> implements Queue<E> {
+	E[] queue;
+	int elements;
+	int tail;
+	int head;
 
 	public CircularArrayQueue(int queueSize) {
 		// TODO: create a new queue with the specified size
+		queue = (E[]) new Object[queueSize];
+		elements = 0;
 	}
 	
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return 0;
+		return elements;
 	}
 
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
-		return false;
+		return elements==0;
 	}
 
 	@Override
 	public void enqueue(E e) {
 		// TODO Auto-generated method stub
-		
+		queue[tail]=e;
+		if(tail+1 == queue.length) {
+			if(head > 0) {
+				tail = 0;
+			}
+		}
+		else {
+			tail++;
+		}
 	}
 
 	@Override
 	public E first() {
-		// TODO Auto-generated method stub
-		return null;
+		return queue[head];
 	}
 
 	@Override
 	public E dequeue() {
 		// TODO Auto-generated method stub
-		return null;
+		E output = queue[head];
+
+		if(head+1 == queue.length) {
+			head = 0;
+		}
+		else {
+			head++;
+		}
+		return output;
 	}
     
 }

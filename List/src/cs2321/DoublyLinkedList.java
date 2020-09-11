@@ -30,10 +30,8 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	public DoublyLinkedList() {
 		// TODO Auto-generated constructor stub
-		head = new node<E>();
-		tail = new node<E>();
-		head.next = tail;
-		tail.last = head;
+		head = null;
+		tail = null;
 		size = 0;
 	}
 
@@ -52,41 +50,36 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	@Override
 	public Position<E> first() {
 		// TODO Auto-generated method stub
-		return head.next;
+		return head;
 	}
 
 	@Override
 	public Position<E> last() {
 		// TODO Auto-generated method stub
-		return tail.last;
+		return tail;
 	}
 
-	@Override
-	public Position<E> before(Position<E> p) throws IllegalArgumentException {
-		node<E> temp = tail;
-		while(temp.getElement() != p.getElement() & temp.last != null) {
-			temp = temp.last;
+	private node<E> find(E p) throws IllegalArgumentException{
+		node<E> node = head;
+		while(node.getElement()!=p & node.next!=null) {
+			node = node.next;
 		}
-		if(temp.getElement()==p.getElement()) {
-			return temp.last;
-		}
-		else {
+		if(node.getElement()!=p) {
 			throw new IllegalArgumentException();
 		}
+		return node;
+	}
+	
+	@Override
+	public Position<E> before(Position<E> p) throws IllegalArgumentException {
+		node<E> node = find(p.getElement());
+		return node.last;
 	}
 
 	@Override
 	public Position<E> after(Position<E> p) throws IllegalArgumentException {
-		node<E> temp = head;
-		while(temp.next.getElement() != p.getElement()& temp.next != null) {
-			temp = temp.next;
-		}
-		if(temp.getElement()==p.getElement()) {
-			return temp.next;
-		}
-		else {
-			throw new IllegalArgumentException();
-		}
+		node<E> node = find(p.getElement());
+		return node.next;
 	}
 
 	@Override
@@ -94,10 +87,22 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		// TODO Auto-generated method stub
 		node<E> newnode = new node<E>();
 		newnode.element = e;
-		newnode.next = head.next;
-		newnode.last = head;
-		head.next.last = newnode;
-		head.next = newnode;
+		newnode.next = head;
+		
+		if(head == null) {
+			head = newnode;
+		}
+		
+		else {
+			head.last = newnode;
+			newnode.next = head;
+			head = newnode;
+		}
+		
+		if(tail == null) {
+			tail = head.next;
+		}
+		
 		size++;
 		return newnode;
 	}
@@ -107,10 +112,19 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		// TODO Auto-generated method stub
 		node<E> newnode = new node<E>();
 		newnode.element = e;
-		newnode.next = tail;
-		newnode.last = tail.last;
-		tail.last.next = newnode;
-		tail.last = newnode;
+		if(tail == null) {
+			tail = newnode;
+		}
+		
+		else {
+			tail.next = newnode;
+			newnode.last = tail;
+			tail = newnode;
+		}
+		if(head == null) {
+			head = tail.last;
+		}
+		
 		size++;
 		return newnode;
 	}
@@ -118,21 +132,7 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	@Override
 	public Position<E> addBefore(Position<E> p, E e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		node<E> before = (node<E>) before(p);
-		node<E> newnode = new node<E>();
-		newnode.element = e;
-		newnode.next = before.next;
-		newnode.last = before;
-		before.next.last = newnode;
-		before.next = newnode;
-		size++;
-		return newnode;
-	}
-
-	@Override
-	public Position<E> addAfter(Position<E> p, E e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		node<E> after = (node<E>) after(p);
+		node<E> after = find(p.getElement());
 		node<E> newnode = new node<E>();
 		newnode.element = e;
 		newnode.next = after;
@@ -144,21 +144,53 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	}
 
 	@Override
+	public Position<E> addAfter(Position<E> p, E e) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		node<E> before = find(p.getElement());
+		node<E> newnode = new node<E>();
+		newnode.element = e;
+		newnode.next = before.next;
+		newnode.last = before;
+		before.next.last = newnode;
+		before.next = newnode;
+		size++;
+		return newnode;
+	}
+
+	@Override
 	public E set(Position<E> p, E e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		node<E> node = (node<E>) before(p);
-		E output = node.element;
-		node.element = e;
+		node<E> temp = find(p.getElement());
+		E output = temp.getElement();
+		temp.element = e;
 		return output;
 	}
 
 	@Override
 	public E remove(Position<E> p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		node<E> node = ((node<E>) before(p)).next;
+		node<E> node = find(p.getElement());
 		E output = node.element;
-		node.last.next = node.next;
-		node.next.last = node.last;
+		
+		if(size == 1) {
+			head = null;
+			tail = null;
+		}
+		else {
+			if(node == tail) {
+				tail.last.next = null;
+				tail = tail.last;
+			}
+			else if(node == head) {
+				head.next.last = null;
+				head = head.next;
+			}
+		
+			else {
+				node.last.next = node.next;
+				node.next.last = node.last;
+			}
+		}
 		size--;
 		return output;
 	}
@@ -177,24 +209,45 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	
 	public E removeFirst() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		if(head.next == tail) {
+		if(head == null | tail == null) {
 			throw new IllegalArgumentException();
 		}
-		E output = head.next.element;
-		head.next.next.last = head;
-		head.next = head.next.next;
+		E output;
+		if(head == tail) {
+			output = head.getElement();
+			head = null;
+			tail = null;
+		}
+		
+		else {
+			output = head.next.element;
+			head.next.next.last = head;
+			head.next = head.next.next;
+		}
+		
 		size--;
 		return output;
 	}
 	
 	public E removeLast() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		if(tail.last == head) {
+		if(tail == null) {
 			throw new IllegalArgumentException();
 		}
-		E output = tail.last.element;
-		tail.last.last.next = head;
-		tail.last = tail.last.last;
+		
+		E output;
+		if(head == tail) {
+			output = head.getElement();
+			head = null;
+			tail = null;
+		}
+		
+		else {
+			output = tail.last.element;
+			tail.last.last.next = head;
+			tail.last = tail.last.last;
+		}
+		
 		size--;
 		return output;
 	}

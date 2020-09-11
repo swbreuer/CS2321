@@ -64,10 +64,10 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	@Override
 	public Position<E> before(Position<E> p) throws IllegalArgumentException {
 		node<E> temp = tail;
-		while(temp.next != p & temp.last != null) {
+		while(temp.getElement() != p.getElement() & temp.last != null) {
 			temp = temp.last;
 		}
-		if(temp == p) {
+		if(temp.getElement()==p.getElement()) {
 			return temp.last;
 		}
 		else {
@@ -78,10 +78,10 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	@Override
 	public Position<E> after(Position<E> p) throws IllegalArgumentException {
 		node<E> temp = head;
-		while(temp.next != p & temp.next != null) {
+		while(temp.next.getElement() != p.getElement()& temp.next != null) {
 			temp = temp.next;
 		}
-		if(temp.equals(p)) {
+		if(temp.getElement()==p.getElement()) {
 			return temp.next;
 		}
 		else {
@@ -98,6 +98,7 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		newnode.last = head;
 		head.next.last = newnode;
 		head.next = newnode;
+		size++;
 		return newnode;
 	}
 
@@ -110,6 +111,7 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		newnode.last = tail.last;
 		tail.last.next = newnode;
 		tail.last = newnode;
+		size++;
 		return newnode;
 	}
 
@@ -123,6 +125,7 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		newnode.last = before;
 		before.next.last = newnode;
 		before.next = newnode;
+		size++;
 		return newnode;
 	}
 
@@ -136,6 +139,7 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		newnode.last = after.last;
 		after.last.next = newnode;
 		after.last = newnode;
+		size++;
 		return newnode;
 	}
 
@@ -151,10 +155,11 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	@Override
 	public E remove(Position<E> p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		node<E> node = (node<E>) before(p);
+		node<E> node = ((node<E>) before(p)).next;
 		E output = node.element;
 		node.last.next = node.next;
 		node.next.last = node.last;
+		size--;
 		return output;
 	}
 
@@ -178,6 +183,7 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		E output = head.next.element;
 		head.next.next.last = head;
 		head.next = head.next.next;
+		size--;
 		return output;
 	}
 	
@@ -188,7 +194,8 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		}
 		E output = tail.last.element;
 		tail.last.last.next = head;
-		head.last = head.last.last;
+		tail.last = tail.last.last;
+		size--;
 		return output;
 	}
 

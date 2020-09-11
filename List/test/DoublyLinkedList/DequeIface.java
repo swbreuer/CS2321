@@ -18,7 +18,7 @@ public class DequeIface {
 	@Before
 	public void setup() throws Throwable {
 		T.addLast("1");
-			T.addLast("2");
+		T.addLast("2");
 	}
 
 	@org.junit.Test(timeout=15000)

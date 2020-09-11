@@ -6,83 +6,156 @@ import net.datastructures.PositionalList;
 
 
 public class DoublyLinkedList<E> implements PositionalList<E> {
+	node<E> head;
+	node<E> tail;
+	int size;
+
+	static class node<E> implements Position<E>{
+		E element;
+		node<E> next;
+		node<E> last;
+		
+		@Override
+		public E getElement() throws IllegalStateException {
+			// TODO Auto-generated method stub
+			return element;
+		}
+		
+		public node(){
+			next = null;
+			last = null;
+			element = null;
+		}
+	}
 
 	public DoublyLinkedList() {
 		// TODO Auto-generated constructor stub
+		head = new node<E>();
+		tail = new node<E>();
+		head.next = tail;
+		tail.last = head;
+		size = 0;
 	}
 
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
-		return false;
+		return size==0;
 	}
 
 	@Override
 	public Position<E> first() {
 		// TODO Auto-generated method stub
-		return null;
+		return head.next;
 	}
 
 	@Override
 	public Position<E> last() {
 		// TODO Auto-generated method stub
-		return null;
+		return tail.last;
 	}
 
 	@Override
 	public Position<E> before(Position<E> p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		node<E> temp = tail;
+		while(temp.next != p & temp.last != null) {
+			temp = temp.last;
+		}
+		if(temp == p) {
+			return temp.last;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
 	public Position<E> after(Position<E> p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		node<E> temp = head;
+		while(temp.next != p & temp.next != null) {
+			temp = temp.next;
+		}
+		if(temp.equals(p)) {
+			return temp.next;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
 	public Position<E> addFirst(E e) {
 		// TODO Auto-generated method stub
-		return null;
+		node<E> newnode = new node<E>();
+		newnode.element = e;
+		newnode.next = head.next;
+		newnode.last = head;
+		head.next.last = newnode;
+		head.next = newnode;
+		return newnode;
 	}
 
 	@Override
 	public Position<E> addLast(E e) {
 		// TODO Auto-generated method stub
-		return null;
+		node<E> newnode = new node<E>();
+		newnode.element = e;
+		newnode.next = tail;
+		newnode.last = tail.last;
+		tail.last.next = newnode;
+		tail.last = newnode;
+		return newnode;
 	}
 
 	@Override
-	public Position<E> addBefore(Position<E> p, E e)
-			throws IllegalArgumentException {
+	public Position<E> addBefore(Position<E> p, E e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		node<E> before = (node<E>) before(p);
+		node<E> newnode = new node<E>();
+		newnode.element = e;
+		newnode.next = before.next;
+		newnode.last = before;
+		before.next.last = newnode;
+		before.next = newnode;
+		return newnode;
 	}
 
 	@Override
-	public Position<E> addAfter(Position<E> p, E e)
-			throws IllegalArgumentException {
+	public Position<E> addAfter(Position<E> p, E e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		node<E> after = (node<E>) after(p);
+		node<E> newnode = new node<E>();
+		newnode.element = e;
+		newnode.next = after;
+		newnode.last = after.last;
+		after.last.next = newnode;
+		after.last = newnode;
+		return newnode;
 	}
 
 	@Override
 	public E set(Position<E> p, E e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		node<E> node = (node<E>) before(p);
+		E output = node.element;
+		node.element = e;
+		return output;
 	}
 
 	@Override
 	public E remove(Position<E> p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		node<E> node = (node<E>) before(p);
+		E output = node.element;
+		node.last.next = node.next;
+		node.next.last = node.last;
+		return output;
 	}
 
 	@Override
@@ -99,12 +172,24 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	
 	public E removeFirst() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		if(head.next == tail) {
+			throw new IllegalArgumentException();
+		}
+		E output = head.next.element;
+		head.next.next.last = head;
+		head.next = head.next.next;
+		return output;
 	}
 	
 	public E removeLast() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		if(tail.last == head) {
+			throw new IllegalArgumentException();
+		}
+		E output = tail.last.element;
+		tail.last.last.next = head;
+		head.last = head.last.last;
+		return output;
 	}
 
 }

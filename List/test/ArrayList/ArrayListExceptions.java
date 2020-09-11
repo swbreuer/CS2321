@@ -18,7 +18,7 @@ public class ArrayListExceptions {
 	@Before
 	public void setup() throws Throwable {
 		T.add(0,"items");
-			T.add(0,"two");
+		T.add(0,"two");
 	}
 
 	@org.junit.Test(timeout=12000)

@@ -46,24 +46,29 @@ public class ArrayList<E> implements List<E> {
 	@Override
 	public void add(int i, E e) throws IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
-		if (i > elements-1 | i<0)
+		if (i > elements | i<0) {
 			throw new IndexOutOfBoundsException();
-		
-		if (elements == list.length) {
-			E[] newlist = (E[]) new Object[elements*2];
-			
+		}
+		if(i==list.length-1) {
+			list[i]=e;
+			elements++;
+			return;
+		}
+		E[] newlist;
+		if (i  >= list.length) {
+			newlist = (E[]) new Object[elements*2];
+		}
+		else {
+			newlist = (E[]) new Object[list.length];
 			for(int j = i; j <= elements; j++) {
 				newlist[j+1]=list[j];
 			}
-			newlist[i]=e;
-			list = newlist;
-			return;
 		}
-		
-		for(int j = elements; j >= i; j--) {
-			list[j]=list[j-1];
+		for(int j=0; j<i; j++) {
+			newlist[j]=list[j];
 		}
-		list[i]=e;
+		newlist[i]=e;
+		list = newlist;
 		elements++;
 	}
 	
@@ -104,7 +109,7 @@ public class ArrayList<E> implements List<E> {
 			return;
 		}
 		
-		for(int j = elements; j >= 0; j--) {
+		for(int j = elements; j > 0; j--) {
 			list[j]=list[j-1];
 		}
 		list[0]=e;
@@ -115,12 +120,12 @@ public class ArrayList<E> implements List<E> {
 		// TODO Auto-generated method stub
 		if (elements == list.length) {
 			E[] newlist = (E[]) new Object[elements*2];
-			for(int i = 0; i<=elements;i++) {
+			for(int i = 0; i<elements;i++) {
 				newlist[i+1]=list[i];
 			}
 			list = newlist;
 		}
-		list[elements+1]=e;
+		list[elements]=e;
 		elements++;
 	}
 	
@@ -135,7 +140,7 @@ public class ArrayList<E> implements List<E> {
 	
 	public E removeLast() throws IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
-		E output = list[elements];
+		E output = list[elements-1];
 		list[elements] = null;
 		return output;
 	}

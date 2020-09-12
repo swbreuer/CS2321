@@ -47,6 +47,7 @@ public class CircularArrayQueue<E> implements Queue<E> {
 		else {
 			tail++;
 		}
+		elements++;
 	}
 
 	@Override
@@ -65,6 +66,7 @@ public class CircularArrayQueue<E> implements Queue<E> {
 		else {
 			head++;
 		}
+		elements--;
 		return output;
 	}
     

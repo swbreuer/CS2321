@@ -88,13 +88,6 @@ public class ArrayList<E> implements List<E> {
 		return output;
 	}
 
-	
-	@Override
-	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void addFirst(E e)  {
 		// TODO Auto-generated method stub
 		if (elements == list.length) {
@@ -103,6 +96,7 @@ public class ArrayList<E> implements List<E> {
 			for(int j = 0; j <= elements; j++) {
 				newlist[j+1]=list[j];
 			}
+			
 			newlist[0]=e;
 			list = newlist;
 			elements++;
@@ -150,5 +144,29 @@ public class ArrayList<E> implements List<E> {
 	public int capacity() {
 		return list.length;
 	}
+
+	@Override
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return new ArrayListIterator();
+	}
 	
+	private class ArrayListIterator implements Iterator<E>{
+		int index = 0;
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return index<elements;
+		}
+
+		@Override
+		public E next() {
+			// TODO Auto-generated method stub
+			E output = list[index];
+			index++;
+			return output;
+		}
+		
+	}
+
 }

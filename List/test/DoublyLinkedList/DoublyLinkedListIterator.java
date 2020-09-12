@@ -24,7 +24,7 @@ public class DoublyLinkedListIterator {
 			T.addFirst("Five");
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test()
 	@jug.TestName("for (string S: iterator){...}")
 	public void Test1() throws Throwable {
 		String[] goal = {"Five", "Four", "Three", "Two", "One"}

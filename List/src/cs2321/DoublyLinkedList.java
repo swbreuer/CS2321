@@ -195,18 +195,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		return output;
 	}
 
-	@Override
-	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Iterable<Position<E>> positions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	public E removeFirst() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		if(head == null | tail == null) {
@@ -252,4 +240,68 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		return output;
 	}
 
+	@Override
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return new ElementIterator();
+	}
+
+	@Override
+	public Iterable<Position<E>> positions() {
+		// TODO Auto-generated method stub
+		return  new NodeIterable();
+	}
+	
+	private class NodeIterable implements Iterable<Position<E>>{
+		
+		@Override
+		public Iterator<Position<E>> iterator() {
+			// TODO Auto-generated method stub
+			return new NodeIterator();
+		}
+		
+	}
+	
+	private class NodeIterator implements Iterator<Position<E>>{
+		node<E> cursor;
+		
+		public NodeIterator() {
+			cursor = new node<E>();
+			cursor.next = head;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return cursor.next!=null;
+		}
+
+		@Override
+		public Position<E> next() {
+			// TODO Auto-generated method stub
+			cursor = cursor.next;
+			return cursor;
+		}
+	}
+	
+	private class ElementIterator implements Iterator<E>{
+		node<E> cursor;
+		public ElementIterator() {
+			cursor = new node<E>();
+			cursor.next = head;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return cursor.next!=null;
+		}
+
+		@Override
+		public E next() {
+			// TODO Auto-generated method stub
+			cursor = cursor.next;
+			return cursor.getElement();
+		}
+	}
 }

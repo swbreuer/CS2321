@@ -24,7 +24,7 @@ public class ArrayListExceptions {
 	@org.junit.Test(timeout=12000)
 	@jug.TestName("add(3, \"X\") throws IndexOutOfBoundsException")
 	public void Test1() throws Throwable {
-		
+
 		{ boolean thrown = false;
 			try {
 				T.add(4, "X");

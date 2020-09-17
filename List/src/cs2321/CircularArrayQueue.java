@@ -60,6 +60,10 @@ public class CircularArrayQueue<E> implements Queue<E> {
 	 */
 	@Override
 	public void enqueue(E e) throws IllegalStateException{
+		if(elements == queue.length) {
+			throw new IllegalStateException();
+		}
+		
 		queue[tail]=e;
 		if(tail+1 == queue.length) {
 			if(head > 0) {

@@ -17,7 +17,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		
 		@Override
 		public E getElement() throws IllegalStateException {
-			// TODO Auto-generated method stub
 			return element;
 		}
 		
@@ -29,7 +28,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	}
 
 	public DoublyLinkedList() {
-		// TODO Auto-generated constructor stub
 		head = null;
 		tail = null;
 		size = 0;
@@ -37,25 +35,21 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
 		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return size==0;
 	}
 
 	@Override
 	public Position<E> first() {
-		// TODO Auto-generated method stub
 		return head;
 	}
 
 	@Override
 	public Position<E> last() {
-		// TODO Auto-generated method stub
 		return tail;
 	}
 
@@ -84,7 +78,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public Position<E> addFirst(E e) {
-		// TODO Auto-generated method stub
 		node<E> newnode = new node<E>();
 		newnode.element = e;
 		newnode.next = head;
@@ -109,7 +102,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public Position<E> addLast(E e) {
-		// TODO Auto-generated method stub
 		node<E> newnode = new node<E>();
 		newnode.element = e;
 		if(tail == null) {
@@ -131,7 +123,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public Position<E> addBefore(Position<E> p, E e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		node<E> after = find(p.getElement());
 		node<E> newnode = new node<E>();
 		newnode.element = e;
@@ -145,7 +136,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public Position<E> addAfter(Position<E> p, E e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		node<E> before = find(p.getElement());
 		node<E> newnode = new node<E>();
 		newnode.element = e;
@@ -159,7 +149,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public E set(Position<E> p, E e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		node<E> temp = find(p.getElement());
 		E output = temp.getElement();
 		temp.element = e;
@@ -168,7 +157,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public E remove(Position<E> p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		node<E> node = find(p.getElement());
 		E output = node.element;
 		
@@ -196,7 +184,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	}
 
 	public E removeFirst() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		if(head == null | tail == null) {
 			throw new IllegalArgumentException();
 		}
@@ -218,7 +205,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 	}
 	
 	public E removeLast() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		if(tail == null) {
 			throw new IllegalArgumentException();
 		}
@@ -242,13 +228,11 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
 		return new ElementIterator();
 	}
 
 	@Override
 	public Iterable<Position<E>> positions() {
-		// TODO Auto-generated method stub
 		return  new NodeIterable();
 	}
 	
@@ -256,7 +240,6 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		
 		@Override
 		public Iterator<Position<E>> iterator() {
-			// TODO Auto-generated method stub
 			return new NodeIterator();
 		}
 		
@@ -272,13 +255,11 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
 			return cursor.next!=null;
 		}
 
 		@Override
 		public Position<E> next() {
-			// TODO Auto-generated method stub
 			cursor = cursor.next;
 			return cursor;
 		}
@@ -293,13 +274,11 @@ public class DoublyLinkedList<E> implements PositionalList<E> {
 		
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
 			return cursor.next!=null;
 		}
 
 		@Override
 		public E next() {
-			// TODO Auto-generated method stub
 			cursor = cursor.next;
 			return cursor.getElement();
 		}

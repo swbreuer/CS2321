@@ -90,22 +90,19 @@ public class ArrayList<E> implements List<E> {
 		
 		E[] newlist;
 		
-		/* if the index is outside the 
-		 * current list no shift is necessary     */
-		if (i  >= list.length) {
+		if (elements+1>list.length) {
 			newlist = (E[]) new Object[elements*2];
 		}
-		/* if the index is within the current list
-		 * shift all elements after the index    */
 		else {
 			newlist = (E[]) new Object[list.length];
-			for(int j = i; j <= elements; j++) {
-				newlist[j+1]=list[j];
-			}
 		}
 		// add all elements of the old list to the new list
-		for(int j=0; j<i; j++) {
-			newlist[j]=list[j];
+		if(elements>0 & i<list.length) {
+			System.arraycopy(list, i, newlist, i+1, list.length-(i+1));
+			System.arraycopy(list, 0, newlist, 0, i);
+		}
+		else if(i+1>list.length) {
+			System.arraycopy(list, 0, newlist, 0, list.length);
 		}
 		
 		newlist[i]=e;
@@ -132,10 +129,10 @@ public class ArrayList<E> implements List<E> {
 		
 		E prev = list[i];
 		// collapses list back down around gap
-		for(int j = i; j <= elements; j++) {
-			list[j]=list[j+1];
-		}
-		
+		E[] newlist = (E[]) new Object[list.length];
+		System.arraycopy(list, i+1, newlist, i, list.length-(i+1));
+		System.arraycopy(list, 0, newlist, 0, i);
+		list = newlist;
 		elements--;
 		return prev;
 	}
@@ -146,32 +143,7 @@ public class ArrayList<E> implements List<E> {
 	 * @param e
 	 */
 	public void addFirst(E e)  {
-		
-		/*
-		 * if the list is full, creates a new list of double the
-		 * previous length and shifts all elements into it, adding 
-		 * new element to the beginning of the new list
-		 */
-		if (elements == list.length) {
-			E[] newlist = (E[]) new Object[elements*2];
-			
-			for(int j = 0; j <= elements; j++) {
-				newlist[j+1]=list[j];
-			}
-			
-			newlist[0]=e;
-			list = newlist;
-			elements++;
-			return;
-		}
-		
-		// shifts all elements up one starting from the back to save information
-		for(int j = elements; j > 0; j--) {
-			list[j]=list[j-1];
-		}
-		
-		list[0]=e;
-		elements++;
+		add(0,e);
 	}
 	
 	/**
@@ -180,18 +152,7 @@ public class ArrayList<E> implements List<E> {
 	 * @param e
 	 */
 	public void addLast(E e)  {
-		
-		if (elements == list.length) {
-			E[] newlist = (E[]) new Object[elements*2];
-			
-			for(int i = 0; i<elements;i++) {
-				newlist[i+1]=list[i];
-			}
-			
-			list = newlist;
-		}
-		list[elements]=e;
-		elements++;
+		add(elements,e);
 	}
 	
 	/**
@@ -201,12 +162,8 @@ public class ArrayList<E> implements List<E> {
 	 * @throws IndexOutOfBoundsException
 	 */
 	public E removeFirst() throws IndexOutOfBoundsException {
-		
 		E prev = list[0];
-		for(int i = 0; i<=elements;i++) {
-			list[i]=list[i+1];
-		}
-		
+		remove(0);
 		return prev;
 	}
 	
@@ -218,8 +175,7 @@ public class ArrayList<E> implements List<E> {
 	 */
 	public E removeLast() throws IndexOutOfBoundsException {
 		E prev = list[elements-1];
-		list[elements] = null;
-		
+		remove(elements-1);
 		return prev;
 	}
 	

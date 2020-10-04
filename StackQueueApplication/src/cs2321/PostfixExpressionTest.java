@@ -6,49 +6,67 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PostfixExpressionTest {
-
+	PostfixExpression test;
+	
 	@Before
 	public void setUp() throws Exception {
+		test = new PostfixExpression();
 	}
 
 	@Test
 	public void testEvaluate1() {
-		fail("not implemented");
+		String expression = "1 ";
+		int expected = 1;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 	
 	@Test
 	public void testEvaluate2() {
-		fail("not implemented");
+		String expression = "1 1 +";
+		int expected = 2;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 	
 	@Test
 	public void testEvaluate3() {
-		fail("not implemented");
+		String expression = "1 2 -";
+		int expected = -1;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 	
 	@Test
 	public void testEvaluate4() {
-		fail("not implemented");
+		String expression = "4 2 /";
+		int expected = 2;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 	
 	@Test
 	public void testEvaluate5() {
-		fail("not implemented");
+		String expression = "2 5 - 4 + 7 *";
+		int expected = 7;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 	
 	@Test
 	public void testEvaluate6() {
-		fail("not implemented");
+		String expression = "4 20 5 + * 6 -";
+		int expected = 94;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 	
 	@Test
 	public void testEvaluate7() {
-		fail("not implemented");
+		String expression = "4 3 /";
+		int expected = 1;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 	
 	@Test
 	public void testEvaluate8() {
-		fail("not implemented");
+		String expression = "2 5 + 4 * 7 -";
+		int expected = 21;
+		org.junit.Assert.assertEquals(expected, test.evaluate(expression));
 	}
 
 }

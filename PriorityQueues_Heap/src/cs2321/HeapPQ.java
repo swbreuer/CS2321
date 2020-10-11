@@ -11,18 +11,42 @@ import net.datastructures.*;
  * @author
  */
 
-public class HeapPQ<K,V> implements AdaptablePriorityQueue<K,V> {
+public class HeapPQ<K extends Comparable<K>,V> implements AdaptablePriorityQueue<K,V> {
 	
+	private class node<K extends Comparable<K>,V> implements Entry<K,V>{
+		K key;
+		V value;
+		
+		public node(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+		
+		@Override
+		public K getKey() {
+			return key;
+		}
+
+		@Override
+		public V getValue() {
+			return value;
+		}
+		
+	}
 	
+	ArrayList<node<K,V>> list;
+	Comparator<K> comp;
 	
 	/* use default comparator, see DefaultComparator.java */
 	public HeapPQ() {
-		//TODO: implement this method 
+		comp = new DefaultComparator<K>();
+		list = new ArrayList<node<K,V>>();
 	}
 	
 	/* use specified comparator */
 	public HeapPQ(Comparator<K> c) {
-		//TODO: implement this method 
+		comp = c;
+		list = new ArrayList<node<K,V>>();
 	}
 	
 	
@@ -31,8 +55,7 @@ public class HeapPQ<K,V> implements AdaptablePriorityQueue<K,V> {
 	 * This method is purely for testing purpose of auto-grader
 	 */
 	Object[] data() {
-		//TODO: replace the line below to return the actual array
-		return  null;
+		return (Object[]) list.list;
 	}
 	
 	/**
@@ -40,7 +63,14 @@ public class HeapPQ<K,V> implements AdaptablePriorityQueue<K,V> {
 	 * @param int move the entry at index j higher if necessary, to restore the heap property
 	 */
 	public void upheap(int j){
-		//TODO: implement this method
+		int parent = (j-1)/2;
+		while(parent>=0 & comp.compare(list.get(j).getKey(), list.get(parent).getKey())<0) {
+			node<K,V> temp = list.get(j);
+			list.set(j, list.get(parent));
+			list.set(parent, temp);
+			j = parent;
+			parent = (j-1)/2;
+		}
 	}
 	
 	/**
@@ -49,43 +79,64 @@ public class HeapPQ<K,V> implements AdaptablePriorityQueue<K,V> {
 	 */
 	
 	public void downheap(int j){
-		//TODO: implement this method
+		node<K,V> temp = list.get(j);
+		int lChild = j*2+1;
+		int rChild = j*2+2;
+		while(rChild<list.size()) {
+			int lcompare = comp.compare(temp.getKey(), list.get(lChild).getKey());
+			int rcompare = comp.compare(temp.getKey(), list.get(rChild).getKey());
+			if( lcompare>0 | rcompare>0) {
+				if(comp.compare(list.get(lChild).getKey(), list.get(rChild).getKey())<0) {
+					list.set(j, list.get(lChild));
+					list.set(lChild, temp);
+					j = lChild;
+				}
+				else {
+					list.set(j, list.get(rChild));
+					list.set(rChild, temp);
+					j = rChild;
+				}
+			}
+			lChild = j*2+1;
+			rChild = j*2+2;
+		}
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return list.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return list.size()==0;
 	}
 
 	@Override
 	public Entry<K, V> insert(K key, V value) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		node<K,V> node = new node<K,V>(key,value);
+		list.addLast(node);
+		upheap(list.size()-1);
+		return node;
 	}
 
 	@Override
 	public Entry<K, V> min() {
-		// TODO Auto-generated method stub
-		return null;
+		node<K,V> node = list.get(0);
+		return node;
 	}
 
 	@Override
 	public Entry<K, V> removeMin() {
-		// TODO Auto-generated method stub
-		return null;
+		node<K,V> node = list.removeFirst();
+		list.addFirst(list.removeLast());
+		downheap(0);
+		return node;
 	}
 
 	@Override
 	public void remove(Entry<K, V> entry) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -99,7 +150,6 @@ public class HeapPQ<K,V> implements AdaptablePriorityQueue<K,V> {
 		// TODO Auto-generated method stub
 		
 	}
-	
 	
 
 

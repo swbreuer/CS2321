@@ -198,8 +198,6 @@ public class HeapPQ<K extends Comparable<K>,V> implements AdaptablePriorityQueue
 	 * @param value V
 	 */
 	@Override
-	@TimeComplexityAmortized("O(n)")
-	@TimeComplexity("O(lg n)")
 	public Entry<K, V> insert(K key, V value) throws IllegalArgumentException {
 		/* TCJ
 		 * performs upheap which is O log n as it only performs an operation on each layer
@@ -219,7 +217,6 @@ public class HeapPQ<K extends Comparable<K>,V> implements AdaptablePriorityQueue
 	 * @return node<K,V> min node
 	 */
 	@Override
-	@TimeComplexity("O(1)")
 	public Entry<K, V> min() {
 		/* TCJ
 		 * only returns an element and does not perform any heapify operations
@@ -238,7 +235,6 @@ public class HeapPQ<K extends Comparable<K>,V> implements AdaptablePriorityQueue
 	 * @return node<K,V> min node
 	 */
 	@Override
-	@TimeComplexity("O(lg n)")
 	public Entry<K, V> removeMin() {
 		/* TCJ
 		 * performs downheap which is O log n as it only performs an operation on each layer
@@ -267,7 +263,6 @@ public class HeapPQ<K extends Comparable<K>,V> implements AdaptablePriorityQueue
 	 * @param node<K,V> the node to be removed
 	 */
 	@Override
-	@TimeComplexity("O(lg n)")
 	public void remove(Entry<K, V> entry) throws IllegalArgumentException {
 		/* TCJ
 		 * performs either upheap or downheap, each of which are log n 
@@ -299,7 +294,6 @@ public class HeapPQ<K extends Comparable<K>,V> implements AdaptablePriorityQueue
 	 * @param entry node<K,V> 
 	 */
 	@Override
-	@TimeComplexity("O(lg n)")
 	public void replaceKey(Entry<K, V> entry, K key) throws IllegalArgumentException {
 		/* TCJ
 		 * performs either upheap or downheap, each of which are log n 
@@ -331,7 +325,6 @@ public class HeapPQ<K extends Comparable<K>,V> implements AdaptablePriorityQueue
 	 * @param entry node<K,V> node to put the new value in
 	 */
 	@Override
-	@TimeComplexity("O(1)")
 	public void replaceValue(Entry<K, V> entry, V value) throws IllegalArgumentException {
 		/* TCJ
 		 * replace value is able to find a node by it's index without  

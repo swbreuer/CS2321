@@ -23,8 +23,8 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 	 * @param hashtable size: the number of buckets to initialize 
 	 */
 	public HashMap(int hashtablesize) {
-		// TODO Add necessary initialization
-
+		capacity = hashtablesize;
+		table = (UnorderedMap<K, V>[]) new UnorderedMap[hashtablesize];
 	}
 	
 	/**
@@ -32,8 +32,8 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 	 * Initialize the hash table with default hash table size: 17
 	 */
 	public HashMap() {
-		// TODO Add necessary initialization
-		
+		capacity = DefaultCapacity;
+		table = (UnorderedMap<K, V>[]) new UnorderedMap[capacity];
 	}
 	
 	/* This method should be called by map an integer to the index range of the hash table 
@@ -48,46 +48,85 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 	 * It should be 17 initially, after the load factor is more than 0.75, it should be doubled.
 	 */
 	public int tableSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return capacity;
 	}
 	
 	
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size==0;
 	}
 
 	@Override
 	public V get(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		UnorderedMap<K,V> temp = table[hashValue(key)];
+		if(temp == null) {
+			temp = new UnorderedMap<K,V>();
+			table[hashValue(key)]=temp;
+		}
+		return temp.get(key);
 	}
 
 	@Override
 	public V put(K key, V value) {
-		// TODO Auto-generated method stub
-		return null;
+		if(size*loadfactor>capacity) {
+			remake();
+		}
+		UnorderedMap<K,V> temp = table[hashValue(key)];
+		if(temp == null) {
+			temp = new UnorderedMap<K,V>();
+			table[hashValue(key)]=temp;
+		}
+		int size = temp.size();
+		V ret = temp.put(key,value);
+		size +=(temp.size()-size);
+		return ret;
 	}
 
 	@Override
 	public V remove(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		UnorderedMap<K,V> temp = table[hashValue(key)];
+		if(temp == null) {
+			temp = new UnorderedMap<K,V>();
+			table[hashValue(key)]=temp;
+		}
+		int size = temp.size();
+		V value = temp.remove(key);
+		size -=(size-temp.size());
+		return value;
 	}
 
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
+		ArrayList<Entry<K,V>>  temp = new ArrayList<Entry<K,V>>();
+		for(int h=0; h< capacity; h++) {
+			if(table[h]!=null) {
+				for(Entry<K,V> entry : table[h].entrySet()) {
+					temp.addLast(entry);
+				}
+			}
+		}
 		// TODO Auto-generated method stub
-		return null;
+		return temp;
 	}
 	
-
+	private void remake() {
+		capacity = capacity*2;
+		UnorderedMap<K,V>[]  temp = (UnorderedMap<K, V>[]) new UnorderedMap[capacity];
+		int i = 0;
+		for(UnorderedMap<K,V> element: table) {
+			temp[i]=element;
+		}
+		table = (UnorderedMap<K, V>[]) new UnorderedMap[capacity];
+		for(UnorderedMap<K,V> element: temp) {
+			for(K key: element.keySet()) {
+				put(key,element.get(key));
+			}
+		}
+	}
 }

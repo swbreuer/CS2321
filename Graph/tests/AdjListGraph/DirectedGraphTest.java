@@ -18,7 +18,7 @@ public class DirectedGraphTest {
 		TARGET = new AdjListGraph(true);
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying insertVertex method")
 	public void Test1() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("test");
@@ -26,7 +26,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying insertVertex method", (Object)(false), (Object)(v1.getElement()==null));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying insertEdge method")
 	public void Test2() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -36,7 +36,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying insertEdge method", (Object)(false), (Object)(e1.getElement()==null));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying removeVertex method")
 	public void Test3() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -46,7 +46,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying removeVertex method", (Object)(0), (Object)(TARGET.outDegree(v1)));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying removeEdge method")
 	public void Test4() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -57,7 +57,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying removeEdge method", (Object)(0), (Object)(TARGET.numEdges()));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying edges() size equals 10")
 	public void Test5() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -83,7 +83,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying edges() size equals 10", (Object)(10), (Object)(size));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying numEdges() size equals 10")
 	public void Test6() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -105,7 +105,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying numEdges() size equals 10", (Object)(10), (Object)(TARGET.numEdges()));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying vertices() size equals 5")
 	public void Test7() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -131,7 +131,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying vertices() size equals 5", (Object)(5), (Object)(size));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying numVertices() size equals 1")
 	public void Test8() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -153,7 +153,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying numVertices() size equals 1", (Object)(5), (Object)(TARGET.numVertices()));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying incomingEdges(\"alice\") size equals 0")
 	public void Test9() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -179,7 +179,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying incomingEdges(\"alice\") size equals 0", (Object)(0), (Object)(size));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying incomingEdges(\"bob\") size equals 1")
 	public void Test10() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -205,7 +205,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying incomingEdges(\"bob\") size equals 1", (Object)(1), (Object)(size));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying inDegree in (\"alice\") equals 0")
 	public void Test11() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -227,7 +227,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying inDegree in (\"alice\") equals 0", (Object)(0), (Object)(TARGET.inDegree(v1)));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying inDegree in (\"bob\") equals 1")
 	public void Test12() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -249,7 +249,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying inDegree in (\"bob\") equals 1", (Object)(1), (Object)(TARGET.inDegree(v2)));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying outDegree in (\"alice\") equals 4")
 	public void Test13() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -271,7 +271,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying outDegree in (\"alice\") equals 4", (Object)(4), (Object)(TARGET.outDegree(v1)));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying outDegree in (\"bob\") equals 3")
 	public void Test14() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -293,7 +293,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying outDegree in (\"bob\") equals 3", (Object)(3), (Object)(TARGET.outDegree(v2)));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying outgoingEdges(\"alice\") size equals 4")
 	public void Test15() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");
@@ -319,7 +319,7 @@ public class DirectedGraphTest {
 		org.junit.Assert.assertEquals("Verifying outgoingEdges(\"alice\") size equals 4", (Object)(4), (Object)(size));
 	}
 
-	@org.junit.Test(timeout=15000)
+	@org.junit.Test(timeout=150)
 	@jug.TestName("Verifying outgoingEdges(\"bob\") size equals 3")
 	public void Test16() throws Throwable {
 		Vertex<String> v1 = TARGET.insertVertex("alice");

@@ -13,7 +13,7 @@ public class largeItemListRetrieveHM {
 		return new HashMap<String, String>(12000);
 	}
 
-	@org.junit.Test(timeout=60000)
+	@org.junit.Test()
 	@jug.TestName("Verifying get(i) for i = \"1\"...\"10000\"")
 	public void Test1() throws Throwable {
 		Integer [] value2key = new Integer[10000];

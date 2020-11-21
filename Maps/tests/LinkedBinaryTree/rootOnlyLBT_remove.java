@@ -28,7 +28,7 @@ public class rootOnlyLBT_remove {
 		org.junit.Assert.assertEquals("remove(): remove(root)", (Object)(0), (Object)(TARGET.size()));
 	}
 	
-	@org.junit.Test(timeout=10000)
+	@org.junit.Test()
 	@jug.TestName("remove(): remove(root)")
 	public void Test2() throws Throwable {
 		TARGET.remove(TARGET.root());

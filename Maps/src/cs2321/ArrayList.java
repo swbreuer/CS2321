@@ -92,14 +92,18 @@ public class ArrayList<E> implements List<E> {
 		
 		if (elements+1>list.length) {
 			newlist = (E[]) new Object[elements*2];
+			newlist[list.length] = list[list.length-1];
 		}
 		else {
 			newlist = (E[]) new Object[list.length];
 		}
 		// add all elements of the old list to the new list
-		if(elements>0 & i<list.length) {
+		if(i == 0) {
+			System.arraycopy(list, 0, newlist, 1, list.length-1);
+		}
+		else if(elements>0 & i<list.length) {
 			System.arraycopy(list, i, newlist, i+1, list.length-(i+1));
-			System.arraycopy(list, 0, newlist, 0, i);
+			System.arraycopy(list, 0, newlist, 0, i+1);
 		}
 		else if(i+1>list.length) {
 			System.arraycopy(list, 0, newlist, 0, list.length);

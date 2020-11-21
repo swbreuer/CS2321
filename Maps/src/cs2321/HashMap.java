@@ -51,17 +51,26 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 		return capacity;
 	}
 	
-	
+	/**
+	 * return size of list
+	 */
 	@Override
 	public int size() {
 		return size;
 	}
 
+	/**
+	 * return if list is empty
+	 */
 	@Override
 	public boolean isEmpty() {
 		return size==0;
 	}
 
+	/**
+	 * gets value at a given key
+	 */
+	@TimeComplexity("O(n)")
 	@Override
 	public V get(K key) {
 		UnorderedMap<K,V> temp = table[hashValue(key)];
@@ -72,22 +81,36 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 		return temp.get(key);
 	}
 
+	/**
+	 * puts a given key and node into the tree
+	 * @param K key 
+	 * @param V value
+	 * @return V previous value at that key if exists
+	 */
+	@TimeComplexity("O(1)")
 	@Override
 	public V put(K key, V value) {
-		if(size*loadfactor>capacity) {
+		int loadsize = (int) ((int) capacity*loadfactor);
+		if((loadsize)<size) {
 			remake();
 		}
 		UnorderedMap<K,V> temp = table[hashValue(key)];
 		if(temp == null) {
 			temp = new UnorderedMap<K,V>();
-			table[hashValue(key)]=temp;
 		}
-		int size = temp.size();
+		int oldSize = temp.size();
 		V ret = temp.put(key,value);
-		size +=(temp.size()-size);
+		table[hashValue(key)] = temp;
+		size +=(temp.size()-oldSize);
 		return ret;
 	}
 
+	/**
+	 * removes value at given key
+	 * @param key to remove value from
+	 * @return V value that was at that key location
+	 */
+	@TimeComplexity("O(n)")
 	@Override
 	public V remove(K key) {
 		UnorderedMap<K,V> temp = table[hashValue(key)];
@@ -95,12 +118,15 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 			temp = new UnorderedMap<K,V>();
 			table[hashValue(key)]=temp;
 		}
-		int size = temp.size();
+		int oldSize = temp.size();
 		V value = temp.remove(key);
-		size -=(size-temp.size());
+		size -=(oldSize-temp.size());
 		return value;
 	}
 
+	/**
+	 * returns iterable of all entries
+	 */
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
 		ArrayList<Entry<K,V>>  temp = new ArrayList<Entry<K,V>>();
@@ -115,6 +141,9 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 		return temp;
 	}
 	
+	/**
+	 * remakes map when the map grows
+	 */
 	private void remake() {
 		capacity = capacity*2;
 		UnorderedMap<K,V>[]  temp = (UnorderedMap<K, V>[]) new UnorderedMap[capacity];
@@ -124,6 +153,9 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 		}
 		table = (UnorderedMap<K, V>[]) new UnorderedMap[capacity];
 		for(UnorderedMap<K,V> element: temp) {
+			if(element == null) {
+				continue;
+			}
 			for(K key: element.keySet()) {
 				put(key,element.get(key));
 			}

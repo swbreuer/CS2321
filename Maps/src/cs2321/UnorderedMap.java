@@ -20,17 +20,26 @@ public class UnorderedMap<K,V> extends AbstractMap<K,V> {
 		list = new ArrayList<mapEntry<K,V>>();
 	}
 		
-
+	/**
+	 * returns size of the list
+	 */
 	@Override
 	public int size() {
 		return list.size();
 	}
 
+	/**
+	 * returns if the list is empty
+	 */
 	@Override
 	public boolean isEmpty() {
 		return list.isEmpty();
 	}
 
+	/**
+	 * gets value at a given key
+	 */
+	@TimeComplexity("O(n)")
 	@Override
 	public V get(K key) {
 		int index = search(key);
@@ -40,13 +49,19 @@ public class UnorderedMap<K,V> extends AbstractMap<K,V> {
 		return null;
 	}
 
+	/**
+	 * @param key to add to the list
+	 * @value value to add to the list
+	 * @return value previously at key location
+	 */
+	@TimeComplexity("O(n)")
 	@Override
 	public V put(K key, V value) {
 		int index = search(key);
 		mapEntry entry = new mapEntry(key,value);
 		if(index != -1) {
 			V ret = list.get(index).getValue();
-			list.add(index, entry);
+			list.set(index, entry);
 			return ret;
 		}
 		else {
@@ -55,6 +70,11 @@ public class UnorderedMap<K,V> extends AbstractMap<K,V> {
 		}
 	}
 
+	/**
+	 * remove value with given key
+	 * @return value of removed node, null if none exist
+	 */
+	@TimeComplexity("O(n)")
 	@Override
 	public V remove(K key) {
 		int index = search(key);
@@ -65,12 +85,20 @@ public class UnorderedMap<K,V> extends AbstractMap<K,V> {
 	}
 
 
+	/**
+	 * return iterable of entries
+	 */
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
 		
 		return new mapIterable();
 	}
 
+	/**
+	 * searches for a given key, returns index of that key
+	 * @param key to search for
+	 * @return int index location of key
+	 */
 	private int search(K key) {
 		Iterable<K> iterator = keySet();
 		int index = 0;
@@ -83,6 +111,11 @@ public class UnorderedMap<K,V> extends AbstractMap<K,V> {
 		return -1;
 	}
 	
+	/**
+	 * creates iterable over map
+	 * @author sambreuer
+	 *
+	 */
 	class mapIterable implements Iterable<Entry<K,V>>{
 
 		@Override
@@ -93,6 +126,11 @@ public class UnorderedMap<K,V> extends AbstractMap<K,V> {
 		
 	}
 	
+	/**
+	 * creates iterator over map
+	 * @author sambreuer
+	 *
+	 */
 	class mapIterator implements Iterator<Entry<K,V>>{
 		int index = 0;
 		@Override

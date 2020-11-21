@@ -14,6 +14,11 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 	node root;
 	int size;
 	
+	/**
+	 * tree node, includes element, left child, right child, and parent
+	 * @author sambreuer
+	 *
+	 */
 	class node implements Position<E>{
 		E element;
 		node leftChild;
@@ -38,6 +43,9 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		}
 	}
 	
+	/**
+	 * returns root of the tree
+	 */
 	@Override
 	public Position<E> root() {
 		return root;
@@ -48,12 +56,18 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		add(root);
 	}
 	
+	/**
+	 * returns parent node of given node
+	 */
 	@Override
 	public Position<E> parent(Position<E> p) throws IllegalArgumentException {
 		node position = convert(p);
 		return position.parent;
 	}
 
+	/**
+	 * returns iterable of children of given node
+	 */
 	@Override
 	public Iterable<Position<E>> children(Position<E> p) throws IllegalArgumentException {
 		ArrayList<Position<E>> children = new ArrayList<Position<E>>();
@@ -62,9 +76,17 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		return children;
 	}
 
+	/**
+	 * returns direct children of node
+	 * @param node to get children of
+	 * @return int number of direct children
+	 */
 	@Override
 	/* count only direct child of the node, not further descendant. */
 	public int numChildren(Position<E> p) throws IllegalArgumentException {
+		if(p == null) {
+			return 0;
+		}
 		if(isExternal(p)) {
 			return 0;
 		}
@@ -74,43 +96,67 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		return 1;
 	}
 
+	/**
+	 * tells if a node has no children
+	 */
 	@Override
 	public boolean isInternal(Position<E> p) throws IllegalArgumentException {
 		return !isExternal(p);
 	}
 
+	/**
+	 * returns if a node has children
+	 */
 	@Override
 	public boolean isExternal(Position<E> p) throws IllegalArgumentException {
 		return left(p)==null & right(p)==null;
 	}
 
+	/**
+	 * returns if a node is root
+	 */
 	@Override
 	public boolean isRoot(Position<E> p) throws IllegalArgumentException {
 		return p.equals(root);
 	}
 
+	/**
+	 * returns size of tree
+	 */
 	@Override
 	public int size() {
 		return size;
 	}
 
+	/**
+	 * returns if tree is empty
+	 */
 	@Override
 	public boolean isEmpty() {
 		return size==0;
 	}
 
+	/**
+	 * reuturns inorder iterator over tree elements
+	 */
 	@Override
 	public Iterator<E> iterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * returns inorder iterator over tree nodes
+	 */
 	@Override
 	public Iterable<Position<E>> positions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * returns left node of given node
+	 */
 	@Override
 	public Position<E> left(Position<E> p) throws IllegalArgumentException {
 		node pos = convert(p);
@@ -120,6 +166,9 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		return pos.leftChild;
 	}
 
+	/**
+	 * returns right node of given node
+	 */
 	@Override
 	public Position<E> right(Position<E> p) throws IllegalArgumentException {
 		node pos = convert(p);
@@ -129,12 +178,21 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		return pos.rightChild;
 	}
 
+	/**
+	 * sets the element of a given node
+	 * @param p given node to set element of
+	 * @param element element to add to node
+	 * @throws IllegalArgumentException if the position is not a node
+	 */
 	public void setElement(Position<E> p, E element) throws IllegalArgumentException {
 		node pos = convert(p);
 		pos.element = element;
 		
 	}
 	
+	/**
+	 * returns sibling of a node, that is, the other child of the node's parent
+	 */
 	@Override
 	public Position<E> sibling(Position<E> p) throws IllegalArgumentException {
 		Position<E> left = left(parent(p));
@@ -151,6 +209,12 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 	/* creates a root for an empty tree, storing e as element, and returns the 
 	 * position of that root. An error occurs if tree is not empty. 
 	 */
+	/**
+	 * adds root to empty tree
+	 * @param e element to put in new root
+	 * @return new root of tree
+	 * @throws IllegalStateException if the root exists already
+	 */
 	public Position<E> addRoot(E e) throws IllegalStateException {
 		if(numChildren(root)!=0) {
 			throw new IllegalStateException();
@@ -163,6 +227,13 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 	
 	/* creates a new left child of Position p storing element e, return the left child's position.
 	 * If p has a left child already, throw exception IllegalArgumentExeption. 
+	 */
+	/**
+	 * adds left child to a given node with given element
+	 * @param p node to add child to
+	 * @param e element to add to node
+	 * @return new child node
+	 * @throws IllegalArgumentException if the location you're trying to add exists
 	 */
 	public Position<E> addLeft(Position<E> p, E e) throws IllegalArgumentException {
 		node position = convert(p);
@@ -180,6 +251,13 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 	/* creates a new right child of Position p storing element e, return the right child's position.
 	 * If p has a right child already, throw exception IllegalArgumentExeption. 
 	 */
+	/**
+	 * adds right child to a given node with given element
+	 * @param p node to add child to
+	 * @param e element to add to node
+	 * @return new child node
+	 * @throws IllegalArgumentException if the location you're trying to add exists
+	 */
 	public Position<E> addRight(Position<E> p, E e) throws IllegalArgumentException {
 		node position = convert(p);
 		position = position.rightChild();
@@ -195,6 +273,13 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 	
 	/* Attach trees t1 and t2 as left and right subtrees of external Position. 
 	 * if p is not external, throw IllegalArgumentExeption.
+	 */
+	/**
+	 * attaches two trees together
+	 * @param p parent node to add both trees to
+	 * @param t1 tree one to attach
+	 * @param t2 tree two to attach
+	 * @throws IllegalArgumentException if p is not external
 	 */
 	public void attach(Position<E> p, LinkedBinaryTree<E> t1, LinkedBinaryTree<E> t2) throws IllegalArgumentException {
 		node position = convert(p);
@@ -230,8 +315,14 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		}
 		
 		if(isRoot(position)) {
-			root = null;
-			size = 0;
+			if(size == 1) {
+				root = null; 
+				size = 0;
+				return position.getElement();
+			}
+			root = child;
+			child.parent = null;
+			size--;
 			return position.getElement();
 		}
 		
@@ -247,6 +338,10 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		return position.getElement();
 	}
 	
+	/**
+	 * adds empty nodes to a position
+	 * @param position
+	 */
 	private void add(node position) {
 		position.leftChild = new node();
 		position.rightChild = new node();
@@ -254,6 +349,12 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 		position.rightChild.parent = position;
 	}
 	
+	/**
+	 * converts position to node in a safe way
+	 * @param p position
+	 * @return node 
+	 * @throws IllegalArgumentException if position is not node
+	 */
 	private node convert(Position<E> p) throws IllegalArgumentException {
 		try {
 			node position = (node) p;

@@ -103,7 +103,7 @@ public class UnorderedMap<K,V> extends AbstractMap<K,V> {
 		Iterable<K> iterator = keySet();
 		int index = 0;
 		for(K element : iterator) {
-			if(element==key) {
+			if(element.equals(key)) {
 				return index;
 			}
 			index++;

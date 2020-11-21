@@ -150,8 +150,10 @@ public class HashMap<K, V> extends AbstractMap<K,V> implements Map<K, V> {
 		int i = 0;
 		for(UnorderedMap<K,V> element: table) {
 			temp[i]=element;
+			i++;
 		}
 		table = (UnorderedMap<K, V>[]) new UnorderedMap[capacity];
+		size = 0;
 		for(UnorderedMap<K,V> element: temp) {
 			if(element == null) {
 				continue;

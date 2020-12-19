@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Graph_Algo/src"/>
+	<classpathentry kind="src" path="Graph/src"/>
+	<classpathentry kind="src" path="Graph/tests/AdjListGraph"/>
+	<classpathentry kind="src" path="Greedy/src"/>
+	<classpathentry kind="src" path="List/src"/>
+	<classpathentry kind="src" path="List/test/ArrayList"/>
+	<classpathentry kind="src" path="List/test/CircularArrayQueue"/>
+	<classpathentry kind="src" path="List/test/DoublyLinkedList"/>
+	<classpathentry kind="src" path="Maps/src"/>
+	<classpathentry kind="src" path="Maps/tests/BinarySearchTree"/>
+	<classpathentry kind="src" path="Maps/tests/HashMap"/>
+	<classpathentry kind="src" path="Maps/tests/LinkedBinaryTree"/>
+	<classpathentry kind="src" path="Maps/tests/LookupTable"/>
+	<classpathentry kind="src" path="Maps/tests/UnorderedMap"/>
+	<classpathentry kind="src" path="PriorityQueues_Heap/src"/>
+	<classpathentry kind="src" path="Sorts/src"/>
+	<classpathentry kind="src" path="StackQueueApplication/src"/>
+	<classpathentry kind="src" path="Warmup/src"/>
+	<classpathentry kind="lib" path="Graph/lib/jug-1.1.jar"/>
+	<classpathentry kind="lib" path="List/lib/jug-1.1.jar"/>
+	<classpathentry kind="lib" path="Maps/lib/jug-1.1.jar"/>
+	<classpathentry kind="lib" path="Sorts/lib/jug-1.1.jar"/>
+	<classpathentry kind="output" path="Graph/bin"/>
+</classpath>

@@ -64,5 +64,4 @@ public class IslandsTest {
 		T = new Islands(8, distance);
 		assertEquals(1075,T.Kruskal());
 	}
-
 }

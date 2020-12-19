@@ -1,5 +1,8 @@
 package cs2321;
 
+import net.datastructures.Edge;
+import net.datastructures.Vertex;
+
 /**
  * @author Ruihong Zhang
  * Reference textbook R14.16 P14.81 
@@ -7,7 +10,7 @@ package cs2321;
  */
 public class Travel {
 	
-	
+	AdjListGraph<String,Integer> map;
 	/**
 	 * @param routes: Array of routes between cities. 
 	 *                routes[i][0] and routes[i][1] represent the city names on both ends of the route. 
@@ -15,9 +18,16 @@ public class Travel {
 	 *                Hint: In Java, use Integer.valueOf to convert string to integer. 
 	 */
 	public Travel(String [][] routes) {
-		
-		//TODO: complete the constructor
-		
+		map = new AdjListGraph<String,Integer>(false);
+		for(int i = 0; i < routes.length; i++) {
+			if(map.vertMap().get(routes[i][0])==null) {
+				map.insertVertex(routes[i][0]);
+			}
+			if(map.vertMap().get(routes[i][1])==null) {
+				map.insertVertex(routes[i][1]);
+			}
+			map.insertEdge(map.vertMap().get(routes[i][0]),map.vertMap().get(routes[i][1]), Integer.valueOf(routes[i][2]));
+		}
 	}
 	
 	/**
@@ -40,10 +50,36 @@ public class Travel {
 	 *              See the method sortedOutgoingEdges below. 
 	 */
 	public Iterable<String> DFSRoute(String departure, String destination ) {
-
-		//TODO: find the path based Depth First Search and return it
+		HashMap<String, Vertex<String>> seen = new HashMap<String,Vertex<String>>();
+		DoublyLinkedList<String> path = new DoublyLinkedList<String>();
 		
-		return null;
+		seen.put(departure, map.vertMap().get(departure));
+		path.addLast(departure);
+		Vertex<String> head = seen.get(departure);
+		
+		
+		while(!path.last().getElement().equals(destination)) {
+			
+			String min = null;
+			
+			for(Edge E : sortedOutgoingEdges(head)) {
+				Vertex<String> search = map.opposite(head, E);
+				
+				if(seen.get(search.getElement())!=null) {
+					continue;
+				}
+				
+				min = search.getElement();
+				break;
+				
+			}
+			
+			seen.put(min, map.vertMap().get(min));
+			path.addLast(min);
+			head = seen.get(min);
+			
+		}
+		return path;
 	}
 	
 	
@@ -69,10 +105,43 @@ public class Travel {
 	 */
 	
 	public Iterable<String> BFSRoute(String departure, String destination ) {
+		HashMap<String, Vertex<String>> seen = new HashMap<String,Vertex<String>>();
+		HashMap<String,Edge<Integer>> tree = new HashMap<String,Edge<Integer>>();
+		CircularArrayQueue<String> queue = new CircularArrayQueue<String>(map.numVertices());
 		
-		//TODO: find the path based Breadth First Search and return it
+		seen.put(departure, map.vertMap().get(departure));
+		queue.enqueue(departure);
 		
-		return null;
+		Vertex<String> head;
+		
+		while(!queue.isEmpty()) {
+			
+			head = seen.get(queue.dequeue());
+			
+			for(Edge E : sortedOutgoingEdges(head)) {
+				
+				Vertex<String> search = map.opposite(head, E);
+				
+				if(seen.get(search.getElement())!=null) {
+					continue;
+				}
+				
+				queue.enqueue(search.getElement());
+				tree.put(search.getElement(),E);
+				seen.put(search.getElement(), search);
+			}
+		}
+		
+		DoublyLinkedList<String> path = new DoublyLinkedList<String>();
+		Vertex<String> searchNode = seen.get(destination);
+		String last = searchNode.getElement();
+		while(searchNode.getElement()!=departure) {
+			searchNode = map.opposite(searchNode,tree.get(searchNode.getElement()));
+			path.addFirst(searchNode.getElement());
+		}
+		path.addLast(last);
+		
+		return path;
 	}
 	
 	/**
@@ -96,10 +165,52 @@ public class Travel {
 	 */
 
 	public int DijkstraRoute(String departure, String destination, DoublyLinkedList<String> itinerary ) {
+
+		HashMap<Vertex<String>,Integer> seen = new HashMap<Vertex<String>,Integer>();
+		HashMap<String,Edge<Integer>> tree = new HashMap<String,Edge<Integer>>();
+		HashMap<String,Edge<Integer>> curPath = new HashMap<String,Edge<Integer>>();
+		HeapPQ<Integer,Vertex<String>> queue = new HeapPQ<Integer,Vertex<String>>();
 		
-		//TODO: find the path based Breadth First Search, update itinerary and return the cost
+		seen.put(map.vertMap().get(departure),0);
+		queue.insert(0,map.vertMap().get(departure));
 		
-		return 0;
+		Vertex<String> head;
+		
+		while(!queue.isEmpty()) {
+			
+			head = queue.removeMin().getValue();
+			if(tree.get(head.getElement())!=null) {
+				continue;
+			}
+			tree.put(head.getElement(), curPath.get(head.getElement()));
+			
+			for(Edge E : sortedOutgoingEdges(head)) {
+				
+				Vertex<String> search = map.opposite(head, E);
+				if(seen.get(search)== null) {
+					seen.put(search,seen.get(head)+(int)E.getElement());
+					curPath.put(search.getElement(), E);
+				}
+				else if(seen.get(search)>(seen.get(head)+(int)E.getElement())) {
+					seen.put(search,seen.get(head)+(int)E.getElement());
+					curPath.put(search.getElement(), E);
+				}
+
+				queue.insert(seen.get(search),search);
+			}
+		}
+		
+		Vertex<String> searchNode = map.vertMap().get(destination);
+		String last = searchNode.getElement();
+		int len = seen.get(searchNode);
+		
+		while(searchNode.getElement()!=departure) {
+			searchNode = map.opposite(searchNode,tree.get(searchNode.getElement()));
+			itinerary.addFirst(searchNode.getElement());
+		}
+		itinerary.addLast(last);
+		
+		return len;
 		
 	}
 	
@@ -112,12 +223,19 @@ public class Travel {
 	 * @param v: vertex v
 	 * @return a list of edges ordered by edge's name
 	 */
-	/*
 	public Iterable<Edge<Integer>> sortedOutgoingEdges(Vertex<String> v)  {
-		
-		//TODO: sort the outgoing edges and return the sorted list
-		
-		return null;
+		String[] vertlist = new String[map.outDegree(v)];
+		QuickSort<String> sorter = new QuickSort<String>();
+		DoublyLinkedList<Edge<Integer>> edgelist = new DoublyLinkedList<Edge<Integer>>();
+		int i = 0;
+		for(Edge E : map.outgoingEdges(v)) {
+			vertlist[i] = map.opposite(v, E).getElement().toString();
+			i++;
+		}
+		sorter.sort(vertlist);
+		for(String s : vertlist) {
+			edgelist.addLast(map.getEdge(map.vertMap().get(s), v));
+		}
+		return edgelist;
 	}
-	*/
 }
